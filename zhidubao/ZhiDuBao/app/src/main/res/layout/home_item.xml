@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--主页的listview 的 显示界面-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="60sp">
+
+    <ImageView
+        android:id="@+id/home_image_left"
+        android:layout_width="50dp"
+        android:layout_height="90dp"
+        android:layout_margin="5dp"
+        android:paddingLeft="10dp"
+        />
+
+    <TextView
+        android:id="@+id/home_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:gravity="center_horizontal"
+        android:textColor="#18B4ED"
+        android:textSize="20sp" />
+
+</RelativeLayout>

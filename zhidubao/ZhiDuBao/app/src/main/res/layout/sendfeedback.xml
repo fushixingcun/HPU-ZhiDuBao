@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--用于反馈的布局-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/feedback_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/sendfeedBack_textView"
+        android:autoLink="email|map|web|all"
+        android:lineSpacingExtra="10dp"
+        android:textSize="20sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+       />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:hint="请留下您的联系方式"
+        android:layout_weight="0.2"
+        android:id="@+id/information_edt"
+        android:inputType="number"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        />
+    <EditText
+        android:id="@+id/content_edt"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:layout_marginTop="10dp"
+        android:hint="想说什么就说吧"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_feedback"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:textColor="#FFFFFF"
+        android:text="反  馈"
+        android:autoLink="all"
+        android:background="#18B4ED"/>
+</LinearLayout>
