@@ -1,9 +1,14 @@
 package com.hpu.rule;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -26,6 +31,11 @@ import com.hpu.rule.bease.BaseActivity;
 import com.hpu.rule.service.DownLoadService;
 import com.hpu.rule.view.Home;
 
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
+import net.tsz.afinal.http.HttpHandler;
+
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -54,6 +64,8 @@ public class MainActivity extends BaseActivity {
     private ImageView[] dots;
     //小白点的id
     private int[] views = {R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5};
+    //更新的路径
+    private String apkUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +75,8 @@ public class MainActivity extends BaseActivity {
         getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().setDisplayShowHomeEnabled(false);
         setOverflowShowingAlways();
+        //查检更新
+        update();
         //得到viewpager的实例
         mPager = (ViewPager) findViewById(R.id.viewPager);
         //初始化小白点
@@ -134,6 +148,35 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
+    //自动查检是否有最新版本
+    private void update() {
+        BmobQuery<Update> query = new BmobQuery<>();
+        query.addWhereEqualTo("objectId", "zsV7AAAg");
+        query.findObjects(this, new FindListener<Update>() {
+            @Override
+            public void onSuccess(List<Update> list) {
+                Message msg = Message.obtain();
+                for (Update update : list) {
+                    String versionName = update.getVersionName();
+                    if (!versionName.equals(getVersionName())) {
+                        apkUrl = update.getPath();
+                        msg.obj = true;
+                    } else {
+                        msg.obj = false;
+                        toast("目前是最新版本哦！");
+                    }
+                }
+                handler.sendMessage(msg);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                toast("查询更新失败!");
+            }
+        });
+    }
+
     //初始化小白点
     private void initDots() {
         dots = new ImageView[views.length];
@@ -178,7 +221,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update:
-                checkUpdate();
+                update();
                 break;
             case R.id.contact:
                 Intent contact_intent = new Intent(getApplicationContext(), ActSendFeedback.class);
@@ -191,33 +234,6 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkUpdate() {
-        BmobQuery<Update> query = new BmobQuery<>();
-        query.addWhereEqualTo("objectId", "zsV7AAAg");
-        query.findObjects(this, new FindListener<Update>() {
-            @Override
-            public void onSuccess(List<Update> list) {
-                for (Update update : list) {
-                    String versionName = update.getVersionName();
-                    if (!versionName.equals(getVersionName())) {
-                        String path = update.getPath();
-                        Intent i = new Intent(MainActivity.this, DownLoadService.class);
-                        i.putExtra("url", path);
-                        startService(i);
-                        toast("开始下载");
-                    } else {
-                        toast("您已经是最新版本了！");
-                    }
-                }
-
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                toast("查询失败，请稍候再试!");
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -274,6 +290,105 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         Intent i = new Intent(MainActivity.this, DownLoadService.class);
         stopService(i);
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            boolean result = (boolean) msg.obj;
+            if (result) {
+                showDialgo();
+            } else {
+                toast("当前是最新版本哦！");
+            }
+        }
+    };
+
+    //提醒更新对话框
+    private void showDialgo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        // builder.setCancelable(false); 强制升级
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();// 关闭对话框
+            }
+        });
+        builder.setTitle("发现新版本");
+        builder.setPositiveButton("立即升级", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final ProgressDialog pd = new ProgressDialog(MainActivity.this);
+                pd.setMessage("下载进度:" + "0%");
+                pd.show();
+                String url = null;
+                // 下载APK，并且替换安装
+                if (Environment.getExternalStorageState().equals(
+                        Environment.MEDIA_MOUNTED)) {
+                    url = Environment
+                            .getExternalStorageDirectory()
+                            .getAbsolutePath() + "/制度宝.apk";
+                } else {
+                    url = Environment.getRootDirectory().getAbsolutePath() + "/制度宝.apk";
+                }
+                // sdcard存在
+                FinalHttp fh = new FinalHttp();
+                // 调用dowmload开始下载
+                HttpHandler hadnler = fh.download(apkUrl, url
+                        , new AjaxCallBack<File>() {
+
+                    @Override
+                    public void onFailure(Throwable t, int errorNo,
+                                          String strMsg) {
+                        super.onFailure(t, errorNo, strMsg);
+                        t.printStackTrace();
+                        Toast.makeText(getApplicationContext(),
+                                "对不起下载失败,请稍后再试", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void onLoading(long count, long current) {
+                        super.onLoading(count, current);
+                        // 当前下载百分比
+                        int progress = (int) (current * 100 / count);
+                        pd.setMessage("下载进度:" + progress + "%");
+                    }
+
+                    @Override
+                    public void onSuccess(File t) {
+                        super.onSuccess(t);
+                        pd.dismiss();
+                        installAPK(t);
+
+                    }
+
+                    /**
+                     * @param t
+                     *            安装APK
+                     */
+                    private void installAPK(File t) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.fromFile(t),
+                                "application/vnd.android.package-archive");
+                        startActivity(intent);
+                    }
+
+                });
+
+            }
+        });
+        builder.setNegativeButton("下次再说", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
     }
 
 }
