@@ -322,6 +322,12 @@ public class MainActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 final ProgressDialog pd = new ProgressDialog(MainActivity.this);
                 pd.setMessage("下载进度:" + "0%");
+                pd.setButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        pd.dismiss();
+                    }
+                });
                 pd.show();
                 String url = null;
                 // 下载APK，并且替换安装

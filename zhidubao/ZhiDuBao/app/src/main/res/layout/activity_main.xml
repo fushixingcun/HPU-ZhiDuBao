@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".MainActivity">
+
     <RelativeLayout
         android:id="@+id/main_relative"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="35%">
+
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
         <LinearLayout
             android:id="@+id/main_linear"
             android:layout_width="match_parent"
@@ -23,6 +25,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/iv1"
                 android:layout_width="wrap_content"
@@ -57,29 +60,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:src="@mipmap/white" />
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/view_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="1.5%"
-        android:background="#D7D7D2" />
+        android:background="#D7D7D2"
+        app:layout_heightPercent="1.5%" />
+
     <ListView
         android:id="@+id/main_listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="62%"
         android:background="#FFFFFF"
         android:divider="@color/devide_color"
         android:dividerHeight="2dp"
         android:footerDividersEnabled="false"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        app:layout_heightPercent="62%" />
+
     <View
         android:id="@+id/view_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="1.5%"
-        android:background="#D7D7D2" />
+        android:background="#D7D7D2"
+        app:layout_heightPercent="1.5%" />
 </com.zhy.android.percent.support.PercentLinearLayout>
