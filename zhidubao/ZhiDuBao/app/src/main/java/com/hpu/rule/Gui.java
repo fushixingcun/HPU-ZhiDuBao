@@ -10,14 +10,24 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.hpu.rule.bean.count_pian_zhang;
+import com.hpu.rule.dao.Zhang1Dao;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 /*
 用于实现引导界面
  */
-public class Gui extends Activity{
+public class Gui extends Activity {
     private TextView guiText;
-    private int count=3;
+    private int count = 3;
     private Animation mAnimation;
+    public Zhang1Dao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +36,31 @@ public class Gui extends Activity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.gui);
-        guiText=(TextView)findViewById(R.id.gui_text);
-        mAnimation= AnimationUtils.loadAnimation(this,R.anim.anim_text);
-
+        guiText = (TextView) findViewById(R.id.gui_text);
+        mAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_text);
+        //判断数据库是否已经有数据
+        dao = new Zhang1Dao(this);
+        if (!dao.hasInfo()) {
+            acquireDataZhang();
+        }
         handler.sendEmptyMessageDelayed(0, 1000);
     }
 
     private Handler handler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==0){
-                guiText.setText(getCount()+"");
-                handler.sendEmptyMessageDelayed(0,1000);
+            if (msg.what == 0) {
+                guiText.setText(getCount() + "");
+                handler.sendEmptyMessageDelayed(0, 1000);
                 mAnimation.reset();
                 guiText.startAnimation(mAnimation);
             }
         }
     };
 
-    private int getCount(){
+    private int getCount() {
         count--;
-        if(count==0){
+        if (count == 0) {
             Intent intent = new Intent(Gui.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -54,4 +68,23 @@ public class Gui extends Activity{
         return count;
     }
 
+    private void acquireDataZhang() {
+        //查询章
+        BmobQuery<count_pian_zhang> query = new BmobQuery<>();
+        query.addWhereNotEqualTo("objectId", "cBemq");
+        query.order("createdAt");
+        query.findObjects(this, new FindListener<count_pian_zhang>() {
+            @Override
+            public void onSuccess(List<count_pian_zhang> list) {
+                for (count_pian_zhang zhang : list) {
+                    dao.insert(zhang);
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Toast.makeText(Gui.this, "网络有问题哦！", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -13,21 +13,18 @@ import java.util.List;
 
 public class TreeViewAdapter extends BaseExpandableListAdapter {
 
-    public static final int ItemHeight = 48;
-    public static final int PaddingLeft = 38;
-    private int myPaddingLeft = 0;
 
     static public class TreeNode {
         public Object parent;
         public List<Object> childs = new ArrayList<>();
+        public List<String> childsurl = new ArrayList<>();
     }
 
     List<TreeNode> treeNodes = new ArrayList<>();
     Context parentContext;
 
-    public TreeViewAdapter(Context context, int myPaddingLeft) {
+    public TreeViewAdapter(Context context) {
         parentContext = context;
-        this.myPaddingLeft = myPaddingLeft;
 
     }
 
@@ -47,6 +44,10 @@ public class TreeViewAdapter extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosition) {
         return treeNodes.get(groupPosition).childs.get(childPosition);
     }
+    //获取url
+    public String getChildUrl(int groupPosition, int childPosition) {
+        return treeNodes.get(groupPosition).childsurl.get(childPosition);
+    }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
@@ -58,7 +59,7 @@ public class TreeViewAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
                              ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(parentContext, R.layout.group_view, null);
+            convertView = View.inflate(parentContext, R.layout.childs_view, null);
         }
         TextView tv = (TextView) convertView.findViewById(R.id.tv);
         tv.setText((String) (treeNodes.get(groupPosition).childs.get(childPosition)));

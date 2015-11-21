@@ -1,6 +1,7 @@
 package com.hpu.rule;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,8 +10,8 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.hpu.rule.adapter.TreeViewAdapter;
-import com.hpu.rule.bean.Count_pian1_zhang;
 import com.hpu.rule.bean.count_pian;
+import com.hpu.rule.bean.count_pian_zhang;
 import com.hpu.rule.bease.BaseActivity;
 
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     private TreeViewAdapter adapter;
 
     public List<String> groups = new ArrayList<>();
-    private ArrayList<String> childDate = new ArrayList<>();
     private final static int NETGROUP = 0;
+    private List<count_pian_zhang> count_pian1_zhangs;
+    //实体信息
+    private List<TreeViewAdapter.TreeNode> treeNode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
 
     //读取数据库的信息
     private void fillDate() {
-        List<Count_pian1_zhang> count_pian1_zhangs = dao.queryAll();
-        for (Count_pian1_zhang zhang : count_pian1_zhangs) {
-            childDate.add(zhang.getZhang_name());
-        }
+        count_pian1_zhangs = dao.queryAll();
     }
 
     //获取篇章数据
@@ -52,8 +52,9 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         pd.show();
         //查询篇
         BmobQuery<count_pian> query = new BmobQuery<>();
-        query.addWhereContains("content", "篇");
-        //缓存5天
+        query.addWhereNotEqualTo("objectId", "ud2V11V");
+        //缓存1天
+        query.order("createdAt");
         query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
         //判断是否有缓存，该方法必须放在查询条件（如果有的话）都设置完之后再来调用才有效，就像这里一样。
         boolean isCache = query.hasCachedResult(this, count_pian.class);
@@ -104,13 +105,16 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     //初始化树状图
     private void initView() {
         expandableListView = (ExpandableListView) findViewById(R.id.expand_list);
-        adapter = new TreeViewAdapter(this, 50);
-        List<TreeViewAdapter.TreeNode> treeNode = adapter.getTreeNode();
+        adapter = new TreeViewAdapter(this);
+        treeNode = adapter.getTreeNode();
         for (int i = 0; i < groups.size(); i++) {
             TreeViewAdapter.TreeNode node = new TreeViewAdapter.TreeNode();
             node.parent = groups.get(i);
-            for (int j = 0; j < childDate.size(); j++) {
-                node.childs.add(childDate.get(j));
+            for (count_pian_zhang zhang : count_pian1_zhangs) {
+                if (zhang.getPian_name().equals(groups.get(i))) {
+                    node.childs.add(zhang.getZhang_name());
+                    node.childsurl.add(zhang.getContent());
+                }
             }
             treeNode.add(node);
         }
@@ -121,7 +125,9 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
+        Intent i = new Intent(this, DetailActivity.class);
+        i.putExtra("url", adapter.getChildUrl(groupPosition, childPosition));
+        startActivity(i);
         return false;
     }
 }

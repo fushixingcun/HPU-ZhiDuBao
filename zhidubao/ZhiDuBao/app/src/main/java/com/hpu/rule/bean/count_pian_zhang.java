@@ -2,13 +2,25 @@ package com.hpu.rule.bean;
 
 import cn.bmob.v3.BmobObject;
 
-public class Count_pian1_zhang extends BmobObject {
+public class count_pian_zhang extends BmobObject {
     private String zhang_name;
     private String content;
 
-    public Count_pian1_zhang(String zhang_name, String content) {
+    private String pian_name;
+
+    public String getPian_name() {
+        return pian_name;
+    }
+
+    public void setPian_name(String pian_name) {
+        this.pian_name = pian_name;
+    }
+
+
+    public count_pian_zhang(String zhang_name, String content, String pian_name) {
         this.zhang_name = zhang_name;
         this.content = content;
+        this.pian_name = pian_name;
     }
 
     public String getZhang_name() {

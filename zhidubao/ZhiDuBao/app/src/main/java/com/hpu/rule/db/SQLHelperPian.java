@@ -22,7 +22,7 @@ public class SQLHelperPian extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 操作数据库
-        String sql = "create table pian1(_id integer primary key, zhang_name string, content string);";
+        String sql = "create table pian1(_id integer primary key, zhang_name string, content string,pian_name string);";
         db.execSQL(sql);
     }
 

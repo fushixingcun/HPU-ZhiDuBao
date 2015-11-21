@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hpu.rule.bean.Count_pian1_zhang;
+import com.hpu.rule.bean.count_pian_zhang;
 import com.hpu.rule.db.SQLHelperPian;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Zhang1Dao {
     /**
      * 添加到表一条数据
      */
-    public void insert(Count_pian1_zhang countPian1Zhang) {
+    public void insert(count_pian_zhang countPian1Zhang) {
         SQLiteDatabase query = mOpenHelper.getReadableDatabase();
         if (query.isOpen()) {
             String[] columns = {"_id", "zhang_name", "content"}; // 需要的列
@@ -49,6 +49,7 @@ public class Zhang1Dao {
                 ContentValues values = new ContentValues();
                 values.put("zhang_name", countPian1Zhang.getZhang_name());
                 values.put("content", countPian1Zhang.getContent());
+                values.put("pian_name", countPian1Zhang.getPian_name());
                 long id = db.insert("pian1", null, values);
                 db.close(); // 数据库关闭
             }
@@ -56,10 +57,10 @@ public class Zhang1Dao {
     }
 
     // 查询表中所有
-    public List<Count_pian1_zhang> queryAll() {
+    public List<count_pian_zhang> queryAll() {
         SQLiteDatabase db = mOpenHelper.getReadableDatabase(); // 获得一个只读的数据库对象
         if (db.isOpen()) {
-            String[] columns = {"_id", "zhang_name", "content"}; // 需要的列
+            String[] columns = {"_id", "zhang_name", "content", "pian_name"}; // 需要的列
             String selection = null; // 选择条件, 给null查询所有
             String[] selectionArgs = null; // 选择条件的参数, 会把选择条件中的? 替换成数据中的值
             String groupBy = null; // 分组语句 group by name
@@ -70,13 +71,15 @@ public class Zhang1Dao {
 
             String zhang_name;
             String content;
+            String pian_name;
             if (cursor != null && cursor.getCount() > 0) {
-                List<Count_pian1_zhang> personList = new ArrayList<>();
+                List<count_pian_zhang> personList = new ArrayList<>();
                 while (cursor.moveToNext()) {
                     // 向下移一位, 直到最后一位, 不可以往下移动了, 停止.
                     zhang_name = cursor.getString(1);
                     content = cursor.getString(2);
-                    personList.add(new Count_pian1_zhang(zhang_name, content));
+                    pian_name = cursor.getString(3);
+                    personList.add(new count_pian_zhang(zhang_name, content, pian_name));
                 }
                 cursor.close();
                 db.close();
