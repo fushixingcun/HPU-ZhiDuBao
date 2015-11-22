@@ -92,20 +92,6 @@ public class Zhang1Dao {
     }
 
     /**
-     * 根据id找到记录, 并且修改姓名
-     */
-    public void update(int id, String name) {
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        if (db.isOpen()) { // 如果数据库打开, 执行添加的操作
-            ContentValues values = new ContentValues();
-            values.put("name", name);
-            int count = db.update("person", values, "_id = ?",
-                    new String[]{id + ""});
-            db.close(); // 数据库关闭
-        }
-    }
-
-    /**
      * 判断数据库是否有信息
      */
     public boolean hasInfo() {
@@ -135,7 +121,7 @@ public class Zhang1Dao {
     public void delAll() {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            db.execSQL("drop table pian1;");
+            db.delete("pian1", null, null);
         }
         db.close();
     }

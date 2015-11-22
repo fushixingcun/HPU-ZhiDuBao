@@ -114,7 +114,6 @@ public class DetailActivity extends BaseActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("选中:" + which);
                         mCurrentChooseItem = which;
                     }
                 });
@@ -153,6 +152,7 @@ public class DetailActivity extends BaseActivity {
 
         builder.show();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

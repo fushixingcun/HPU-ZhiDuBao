@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     //实体信息
     private List<TreeViewAdapter.TreeNode> treeNode;
     private TextView actionbar_SchoolRule_Text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,5 +144,53 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         i.putExtra("url", adapter.getChildUrl(groupPosition, childPosition));
         startActivity(i);
         return false;
+    }
+
+    RotateAnimation animation;
+    View view;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //设置控件的动画，还有点击事件
+        view = findViewById(R.id.refresh);
+        if (item.getItemId() == R.id.refresh) {
+            dao.delAll();
+            acquireDataZhang();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void acquireDataZhang() {
+        //查询章
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("重新获取数据中...");
+        pd.show();
+        BmobQuery<count_pian_zhang> query = new BmobQuery<>();
+        query.addWhereNotEqualTo("objectId", "cBemq");
+        query.order("createdAt");
+        query.findObjects(this, new FindListener<count_pian_zhang>() {
+            @Override
+            public void onSuccess(List<count_pian_zhang> list) {
+                for (count_pian_zhang zhang : list) {
+                    dao.insert(zhang);
+                }
+                toast("刷新成功!");
+                pd.dismiss();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                //删除表
+                pd.dismiss();
+                dao.delAll();
+                Toast.makeText(SchoolRule.this, "网络有问题哦！", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.school_rule, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
