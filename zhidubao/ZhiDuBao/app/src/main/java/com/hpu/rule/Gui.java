@@ -17,6 +17,7 @@ import com.hpu.rule.dao.Zhang1Dao;
 
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
@@ -28,6 +29,7 @@ public class Gui extends Activity {
     private int count = 3;
     private Animation mAnimation;
     public Zhang1Dao dao;
+    public static String APPID = "a81a11c43e05047b50c03cb067e8401c";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class Gui extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.gui);
+        Bmob.initialize(this, APPID);
         guiText = (TextView) findViewById(R.id.gui_text);
         mAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_text);
         //判断数据库是否已经有数据
@@ -83,6 +86,8 @@ public class Gui extends Activity {
 
             @Override
             public void onError(int i, String s) {
+                //删除表
+                dao.delAll();
                 Toast.makeText(Gui.this, "网络有问题哦！", Toast.LENGTH_SHORT).show();
             }
         });

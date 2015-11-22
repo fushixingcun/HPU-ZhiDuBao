@@ -3,9 +3,11 @@ package com.hpu.rule;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hpu.rule.bease.BaseActivity;
@@ -22,13 +24,21 @@ public class ActSendFeedback extends BaseActivity implements View.OnClickListene
     private EditText content_edt;
     static String msg1;
     static String msg2;
+    //用于显示
+    private TextView actionbar_SchoolHistory_Text;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sendfeedback);
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setTitle("返回");
+        View actionBar_layout = LayoutInflater.from(this).inflate(R.layout.actionbar_layout, null);
+        getActionBar().setCustomView(actionBar_layout);
+        actionbar_SchoolHistory_Text = (TextView) findViewById(R.id.actionbar_Text);
+        actionbar_SchoolHistory_Text.setText("悠悠校园");
         information_edt = (EditText) findViewById(R.id.information_edt);
         content_edt = (EditText) findViewById(R.id.content_edt);
     }

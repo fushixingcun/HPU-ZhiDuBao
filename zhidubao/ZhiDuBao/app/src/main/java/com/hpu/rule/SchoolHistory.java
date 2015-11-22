@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hpu.rule.adapter.MyPagerAdapter;
 import com.hpu.rule.bease.BaseActivity;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SchoolHistory extends BaseActivity {
+    private TextView actionbar_SchoolHistory_Text;
     //小白点
     private ImageView[] dots1;
     //小白点的id
@@ -33,7 +37,13 @@ public class SchoolHistory extends BaseActivity {
         setContentView(R.layout.activity_school_history);
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setTitle("返回");
+        View actionBar_layout = LayoutInflater.from(this).inflate(R.layout.actionbar_layout, null);
+        getActionBar().setCustomView(actionBar_layout);
+        actionbar_SchoolHistory_Text = (TextView) findViewById(R.id.actionbar_Text);
+        actionbar_SchoolHistory_Text.setText("悠悠校园");
 
         mViewPager=(ViewPager)findViewById(R.id.school_history_viewPager);
         initDots();

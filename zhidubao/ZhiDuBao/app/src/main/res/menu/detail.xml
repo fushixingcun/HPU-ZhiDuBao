@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/size"
+        android:icon="@mipmap/icon_textsize"
+        android:showAsAction="always"
+        android:title="调整字体大小" />
+</menu>

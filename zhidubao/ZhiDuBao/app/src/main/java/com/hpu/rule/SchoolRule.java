@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hpu.rule.adapter.TreeViewAdapter;
@@ -30,11 +32,20 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     private List<count_pian_zhang> count_pian1_zhangs;
     //实体信息
     private List<TreeViewAdapter.TreeNode> treeNode;
-
+    private TextView actionbar_SchoolRule_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setTitle("返回");
+        View actionBar_layout = LayoutInflater.from(this).inflate(R.layout.actionbar_layout, null);
+        getActionBar().setCustomView(actionBar_layout);
+        actionbar_SchoolRule_Text = (TextView) findViewById(R.id.actionbar_Text);
+        actionbar_SchoolRule_Text.setText("校规校纪");
         fillDate();
         acquireData();
 

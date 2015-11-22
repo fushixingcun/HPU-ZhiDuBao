@@ -6,7 +6,9 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.hpu.rule.bease.BaseActivity;
@@ -19,14 +21,22 @@ public class HeadMaster extends BaseActivity {
     private ActionBar actionBar;
     private TextView zhouYouFeng;
     private TextView yangXiaoLin;
-
+    private TextView actionbar_HeadMaster_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.headmaster);
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setTitle("返回");
+        View actionBar_layout= LayoutInflater.from(this).inflate(R.layout.actionbar_layout,null);
+        getActionBar().setCustomView(actionBar_layout);
+
+        actionbar_HeadMaster_Text=(TextView)findViewById(R.id.actionbar_Text);
+        actionbar_HeadMaster_Text.setText("校长寄语");
+
         zhouYouFeng=(TextView)findViewById(R.id.headmaster_text_content6);
         yangXiaoLin=(TextView)findViewById(R.id.headmaster_text_content7);
         //创建一个 SpannableString对象

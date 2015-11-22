@@ -112,7 +112,7 @@ public class Zhang1Dao {
         boolean result = false;
         SQLiteDatabase db = mOpenHelper.getReadableDatabase(); // 获得一个只读的数据库对象
         if (db.isOpen()) {
-            String[] columns = {"_id", "zhang_name", "content"}; // 需要的列
+            String[] columns = {"_id", "zhang_name", "content", "pian_name"}; // 需要的列
             String selection = null; // 选择条件, 给null查询所有
             String[] selectionArgs = null; // 选择条件的参数, 会把选择条件中的? 替换成数据中的值
             String groupBy = null; // 分组语句 group by name
@@ -127,5 +127,16 @@ public class Zhang1Dao {
             }
         }
         return result;
+    }
+
+    /**
+     * 删除全部信息
+     */
+    public void delAll() {
+        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            db.execSQL("drop table pian1;");
+        }
+        db.close();
     }
 }

@@ -29,10 +29,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/xiaoyuan"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:launchMode="singleTask"
-        android:logo="@mipmap/title"
+        android:logo="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme">
         <activity android:name=".Gui">

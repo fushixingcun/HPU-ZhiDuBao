@@ -1,7 +1,11 @@
 package com.hpu.rule;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -11,7 +15,7 @@ import android.widget.ProgressBar;
 
 import com.hpu.rule.bease.BaseActivity;
 
-public class DetailActivity extends BaseActivity implements View.OnClickListener {
+public class DetailActivity extends BaseActivity {
     private WebView mWebView;
     private ProgressBar pbProgress;
 
@@ -83,8 +87,78 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.size:
+                //显示选择对话框
+                showChooseDialog();
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
+
+    private int mCurrentChooseItem;// 记录当前选中的item, 点击确定前
+    private int mCurrentItem = 2;// 记录当前选中的item, 点击确定后
+
+    /**
+     * 选择字体大小
+     */
+    private void showChooseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        String[] items = new String[]{"超大号字体", "大号字体", "正常字体", "小号字体",
+                "超小号字体"};
+        builder.setTitle("字体设置");
+        builder.setSingleChoiceItems(items, mCurrentItem,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("选中:" + which);
+                        mCurrentChooseItem = which;
+                    }
+                });
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                WebSettings settings = mWebView.getSettings();
+                switch (mCurrentChooseItem) {
+                    case 0:
+                        settings.setTextSize(WebSettings.TextSize.LARGEST);
+                        break;
+                    case 1:
+                        settings.setTextSize(WebSettings.TextSize.LARGER);
+                        break;
+                    case 2:
+                        settings.setTextSize(WebSettings.TextSize.NORMAL);
+                        break;
+                    case 3:
+                        settings.setTextSize(WebSettings.TextSize.SMALLER);
+                        break;
+                    case 4:
+                        settings.setTextSize(WebSettings.TextSize.SMALLEST);
+                        break;
+
+                    default:
+                        break;
+                }
+
+                mCurrentItem = mCurrentChooseItem;
+            }
+        });
+
+        builder.setNegativeButton("取消", null);
+
+        builder.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
 }
