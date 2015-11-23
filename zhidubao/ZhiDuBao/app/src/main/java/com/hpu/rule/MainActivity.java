@@ -127,11 +127,11 @@ public class MainActivity extends BaseActivity {
                 Intent itemIntent = new Intent();
                 switch (position) {
                     case 0:
-                        itemIntent.setClass(getApplicationContext(), SchoolRule.class);
+                        itemIntent.setClass(getApplicationContext(), HeadMaster.class);
                         MainActivity.this.startActivity(itemIntent);
                         break;
                     case 1:
-                        itemIntent.setClass(getApplicationContext(), HeadMaster.class);
+                        itemIntent.setClass(getApplicationContext(), SchoolRule.class);
                         MainActivity.this.startActivity(itemIntent);
                         break;
                     case 2:
@@ -187,10 +187,10 @@ public class MainActivity extends BaseActivity {
 
     //向listV添加数据
     private void initHome() {
-        Home school_rule = new Home("学生手册", R.mipmap.school_rule);
-        homeList.add(school_rule);
         Home my_favorite = new Home("校长寄语", R.mipmap.headmaster);
         homeList.add(my_favorite);
+        Home school_rule = new Home("学生手册", R.mipmap.school_rule);
+        homeList.add(school_rule);
         Home school_history = new Home("悠悠校园", R.mipmap.school);
         homeList.add(school_history);
         Home school_master = new Home("我的收藏", R.mipmap.my_favorite);
