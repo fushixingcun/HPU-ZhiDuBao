@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hpu.rule.adapter.TreeViewAdapter;
-import com.hpu.rule.bean.count_pian;
-import com.hpu.rule.bean.count_pian_zhang;
+import com.hpu.rule.bean.count_pian_gai;
+import com.hpu.rule.bean.count_pian_zhang_gai;
 import com.hpu.rule.bease.BaseActivity;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
 
     public List<String> groups = new ArrayList<>();
     private final static int NETGROUP = 0;
-    private List<count_pian_zhang> count_pian1_zhangs;
+    private List<count_pian_zhang_gai> count_pian1_zhangs;
     //实体信息
     private List<TreeViewAdapter.TreeNode> treeNode;
     private TextView actionbar_SchoolRule_Text;
@@ -66,24 +66,24 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         pd.setMessage("加载中...");
         pd.show();
         //查询篇
-        BmobQuery<count_pian> query = new BmobQuery<>();
-        query.addWhereNotEqualTo("objectId", "ud2V11V");
+        BmobQuery<count_pian_gai> query = new BmobQuery<>();
+        query.addWhereNotEqualTo("objectId", "ud");
         //缓存1天
         query.order("createdAt");
         query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
         //判断是否有缓存，该方法必须放在查询条件（如果有的话）都设置完之后再来调用才有效，就像这里一样。
-        boolean isCache = query.hasCachedResult(this, count_pian.class);
+        boolean isCache = query.hasCachedResult(this, count_pian_gai.class);
         if (isCache) {
             query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         } else {
             query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
-        query.findObjects(this, new FindListener<count_pian>() {
+        query.findObjects(this, new FindListener<count_pian_gai>() {
             @Override
-            public void onSuccess(List<count_pian> list) {
+            public void onSuccess(List<count_pian_gai> list) {
                 pd.dismiss();
                 List<String> netgroups = new ArrayList<>();
-                for (count_pian pian : list) {
+                for (count_pian_gai pian : list) {
                     netgroups.add(pian.getContent());
                 }
                 Message msg = Message.obtain();
@@ -125,7 +125,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         for (int i = 0; i < groups.size(); i++) {
             TreeViewAdapter.TreeNode node = new TreeViewAdapter.TreeNode();
             node.parent = groups.get(i);
-            for (count_pian_zhang zhang : count_pian1_zhangs) {
+            for (count_pian_zhang_gai zhang : count_pian1_zhangs) {
                 if (zhang.getPian_name().equals(groups.get(i))) {
                     node.childs.add(zhang.getZhang_name());
                     node.childsurl.add(zhang.getContent());
@@ -165,13 +165,13 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("重新获取数据中...");
         pd.show();
-        BmobQuery<count_pian_zhang> query = new BmobQuery<>();
-        query.addWhereNotEqualTo("objectId", "cBemq");
+        BmobQuery<count_pian_zhang_gai> query = new BmobQuery<>();
+        query.addWhereNotEqualTo("objectId", "cBeq");
         query.order("createdAt");
-        query.findObjects(this, new FindListener<count_pian_zhang>() {
+        query.findObjects(this, new FindListener<count_pian_zhang_gai>() {
             @Override
-            public void onSuccess(List<count_pian_zhang> list) {
-                for (count_pian_zhang zhang : list) {
+            public void onSuccess(List<count_pian_zhang_gai> list) {
+                for (count_pian_zhang_gai zhang : list) {
                     dao.insert(zhang);
                 }
                 toast("刷新成功!");

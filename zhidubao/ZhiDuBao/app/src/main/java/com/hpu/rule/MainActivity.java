@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity {
 
     //向listV添加数据
     private void initHome() {
-        Home school_rule = new Home("校规校纪", R.mipmap.school_rule);
+        Home school_rule = new Home("学生手册", R.mipmap.school_rule);
         homeList.add(school_rule);
         Home my_favorite = new Home("校长寄语", R.mipmap.headmaster);
         homeList.add(my_favorite);

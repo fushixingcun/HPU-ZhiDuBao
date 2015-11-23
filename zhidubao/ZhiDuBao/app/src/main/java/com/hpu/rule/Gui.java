@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hpu.rule.bean.count_pian_zhang;
+import com.hpu.rule.bean.count_pian_zhang_gai;
 import com.hpu.rule.dao.Zhang1Dao;
 
 import java.util.List;
@@ -73,13 +73,13 @@ public class Gui extends Activity {
 
     private void acquireDataZhang() {
         //查询章
-        BmobQuery<count_pian_zhang> query = new BmobQuery<>();
-        query.addWhereNotEqualTo("objectId", "cBemq");
+        BmobQuery<count_pian_zhang_gai> query = new BmobQuery<>();
+        query.addWhereNotEqualTo("objectId", "cmq");
         query.order("createdAt");
-        query.findObjects(this, new FindListener<count_pian_zhang>() {
+        query.findObjects(this, new FindListener<count_pian_zhang_gai>() {
             @Override
-            public void onSuccess(List<count_pian_zhang> list) {
-                for (count_pian_zhang zhang : list) {
+            public void onSuccess(List<count_pian_zhang_gai> list) {
+                for (count_pian_zhang_gai zhang : list) {
                     dao.insert(zhang);
                 }
             }

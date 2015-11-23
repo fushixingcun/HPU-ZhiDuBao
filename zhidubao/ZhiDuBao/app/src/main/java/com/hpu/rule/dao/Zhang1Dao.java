@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hpu.rule.bean.count_pian_zhang;
+import com.hpu.rule.bean.count_pian_zhang_gai;
 import com.hpu.rule.db.SQLHelperPian;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Zhang1Dao {
     /**
      * 添加到表一条数据
      */
-    public void insert(count_pian_zhang countPian1Zhang) {
+    public void insert(count_pian_zhang_gai countPian1Zhang) {
         SQLiteDatabase query = mOpenHelper.getReadableDatabase();
         if (query.isOpen()) {
             String[] columns = {"_id", "zhang_name", "content"}; // 需要的列
@@ -57,7 +57,7 @@ public class Zhang1Dao {
     }
 
     // 查询表中所有
-    public List<count_pian_zhang> queryAll() {
+    public List<count_pian_zhang_gai> queryAll() {
         SQLiteDatabase db = mOpenHelper.getReadableDatabase(); // 获得一个只读的数据库对象
         if (db.isOpen()) {
             String[] columns = {"_id", "zhang_name", "content", "pian_name"}; // 需要的列
@@ -73,13 +73,13 @@ public class Zhang1Dao {
             String content;
             String pian_name;
             if (cursor != null && cursor.getCount() > 0) {
-                List<count_pian_zhang> personList = new ArrayList<>();
+                List<count_pian_zhang_gai> personList = new ArrayList<>();
                 while (cursor.moveToNext()) {
                     // 向下移一位, 直到最后一位, 不可以往下移动了, 停止.
                     zhang_name = cursor.getString(1);
                     content = cursor.getString(2);
                     pian_name = cursor.getString(3);
-                    personList.add(new count_pian_zhang(zhang_name, content, pian_name));
+                    personList.add(new count_pian_zhang_gai(zhang_name, content, pian_name));
                 }
                 cursor.close();
                 db.close();
