@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/refresh"
-        android:icon="@mipmap/dynamic_refresh_pressed"
+        android:icon="@mipmap/ic_action_refresh"
         android:showAsAction="always"
         android:title="刷新数据" />
 </menu>
