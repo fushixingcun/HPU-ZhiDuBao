@@ -121,7 +121,9 @@ public class Zhang1Dao {
     public void delAll() {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         if (db.isOpen()) {
-            db.delete("pian1", null, null);
+            db.execSQL("drop table pian1");
+            String sql = "create table pian1(_id integer primary key, zhang_name string, content string,pian_name string);";
+            db.execSQL(sql);
         }
         db.close();
     }

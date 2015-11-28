@@ -16,7 +16,7 @@ public class TreeViewAdapter extends BaseExpandableListAdapter {
 
     static public class TreeNode {
         public Object parent;
-        public List<Object> childs = new ArrayList<>();
+        public List<String> childs = new ArrayList<>();
         public List<String> childsurl = new ArrayList<>();
     }
 
@@ -41,7 +41,7 @@ public class TreeViewAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
+    public String getChild(int groupPosition, int childPosition) {
         return treeNodes.get(groupPosition).childs.get(childPosition);
     }
     //获取url

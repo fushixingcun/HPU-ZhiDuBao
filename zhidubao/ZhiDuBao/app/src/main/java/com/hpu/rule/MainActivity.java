@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
         getActionBar().setDisplayShowHomeEnabled(false);
         setOverflowShowingAlways();
         //查检更新
-        update();
+        update("unclick");
         //得到viewpager的实例
         mPager = (ViewPager) findViewById(R.id.viewPager);
         //初始化小白点
@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity {
 
 
     //自动查检是否有最新版本
-    private void update() {
+    private void update(final String click) {
         BmobQuery<Update> query = new BmobQuery<>();
         query.addWhereEqualTo("objectId", "zsV7AAAg");
         query.findObjects(this, new FindListener<Update>() {
@@ -164,7 +164,11 @@ public class MainActivity extends BaseActivity {
                         msg.obj = true;
                     } else {
                         msg.obj = false;
-                        toast("目前是最新版本哦！");
+                    }
+                }
+                if (click.equals("click")) {
+                    if (!(boolean) msg.obj) {
+                        toast("已经是最新版本了");
                     }
                 }
                 handler.sendMessage(msg);
@@ -221,7 +225,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update:
-                update();
+                update("click");
                 break;
             case R.id.contact:
                 Intent contact_intent = new Intent(getApplicationContext(), ActSendFeedback.class);
@@ -299,8 +303,6 @@ public class MainActivity extends BaseActivity {
             boolean result = (boolean) msg.obj;
             if (result) {
                 showDialgo();
-            } else {
-                toast("当前是最新版本哦！");
             }
         }
     };

@@ -32,6 +32,8 @@ public class SQLHelperPian extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("drop table pian1");
+        String sql = "create table pian1(_id integer primary key, zhang_name string, content string,pian_name string);";
+        db.execSQL(sql);
     }
 }

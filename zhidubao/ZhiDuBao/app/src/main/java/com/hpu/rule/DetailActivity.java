@@ -18,25 +18,32 @@ import com.hpu.rule.bease.BaseActivity;
 public class DetailActivity extends BaseActivity {
     private WebView mWebView;
     private ProgressBar pbProgress;
+    //要显示的内容地址
+    private String url;
+    //是否收藏
+    private boolean hasCollect;
+    private String pian_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         initview();
+        //初始化数据库数据
+        initData();
     }
 
     private void initview() {
-        String url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url");
+        pian_name = getIntent().getStringExtra("pian_name");
+        String s = getIntent().getStringExtra("search");
         mWebView = (WebView) findViewById(R.id.wv_web);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
-
         WebSettings settings = mWebView.getSettings();
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptEnabled(true);// 表示支持js
         settings.setBuiltInZoomControls(true);// 显示放大缩小按钮
         settings.setUseWideViewPort(true);// 支持双击缩放
-
         mWebView.setWebViewClient(new WebViewClient() {
             /**
              * 网页开始加载
@@ -84,6 +91,12 @@ public class DetailActivity extends BaseActivity {
             }
         });
         mWebView.loadUrl(url);// 加载网页
+        mWebView.findAllAsync(s);
+
+    }
+
+    private void initData() {
+        hasCollect = urldao.querryUrl(url);
     }
 
     @Override
@@ -92,6 +105,19 @@ public class DetailActivity extends BaseActivity {
             case R.id.size:
                 //显示选择对话框
                 showChooseDialog();
+                break;
+            case R.id.collect:
+                //判断是否已经收藏
+                hasCollect = urldao.querryUrl(url);
+                if (hasCollect) {
+                    item.setIcon(R.mipmap.ic_action_important);
+                    urldao.del(url);
+                    toast("取消收藏!");
+                } else {
+                    item.setIcon(R.mipmap.ic_action_favor_on_pressed);
+                    urldao.insert(url, pian_name);
+                    toast("已经收藏了!");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -153,10 +179,15 @@ public class DetailActivity extends BaseActivity {
         builder.show();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail, menu);
+        MenuItem item = menu.getItem(1);
+        if (hasCollect) {
+            item.setIcon(R.mipmap.ic_action_favor_on_pressed);
+        } else {
+            item.setIcon(R.mipmap.ic_action_important);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

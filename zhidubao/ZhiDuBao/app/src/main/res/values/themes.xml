@@ -2,8 +2,7 @@
 <resources>
     <!--parent="@android:style/Theme.Holo.Light.DarkActionBar"-->
     <!-- 应用于程序或者活动的主题 -->
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo.Light">
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <!-- 设置overflow按钮的图片资源 -->
         <item name="android:actionOverflowButtonStyle">@style/MyOverFlowButton</item>
@@ -12,8 +11,7 @@
         <item name="android:homeAsUpIndicator">@mipmap/ic_action_back</item>
     </style>
     <!-- ActionBar 样式 -->
-    <style name="MyActionBar"
-        parent="@android:style/Widget.Holo.Light.ActionBar">
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#18B4ED</item>
         <!--设置ActionBar的标题的样式-->
         <item name="android:titleTextStyle">@style/ActionBarTextStyle</item>

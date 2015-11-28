@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.RotateAnimation;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -142,20 +141,21 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("url", adapter.getChildUrl(groupPosition, childPosition));
+        i.putExtra("pian_name", adapter.getChild(groupPosition, childPosition));
         startActivity(i);
         return false;
     }
 
-    RotateAnimation animation;
-    View view;
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //设置控件的动画，还有点击事件
-        view = findViewById(R.id.refresh);
-        if (item.getItemId() == R.id.refresh) {
-            dao.delAll();
-            acquireDataZhang();
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                dao.delAll();
+                acquireDataZhang();
+                break;
+            case R.id.search:
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -7,6 +7,10 @@ public class count_pian_zhang_gai extends BmobObject {
     private String content;
 
     private String pian_name;
+    private String detail;
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
 
     public String getPian_name() {
         return pian_name;

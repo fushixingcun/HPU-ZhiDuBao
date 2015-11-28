@@ -5,4 +5,9 @@
         android:icon="@mipmap/icon_textsize"
         android:showAsAction="always"
         android:title="调整字体大小" />
+    <item
+        android:id="@+id/collect"
+        android:icon="@mipmap/ic_action_important"
+        android:showAsAction="always"
+        android:title="收藏" />
 </menu>

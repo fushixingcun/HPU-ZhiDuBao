@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/search"
+        android:icon="@mipmap/ic_action_search"
+        android:showAsAction="always"
+        android:title="刷新数据" />
+    <item
         android:id="@+id/refresh"
         android:icon="@mipmap/ic_action_refresh"
         android:showAsAction="always"
         android:title="刷新数据" />
+
 </menu>

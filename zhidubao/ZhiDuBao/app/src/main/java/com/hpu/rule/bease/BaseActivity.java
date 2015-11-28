@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.hpu.rule.dao.CollectDao;
 import com.hpu.rule.dao.Zhang1Dao;
 
 import cn.bmob.v3.Bmob;
@@ -16,6 +17,7 @@ import cn.bmob.v3.Bmob;
 public class BaseActivity extends Activity {
     public static String APPID = "a81a11c43e05047b50c03cb067e8401c";
     public Zhang1Dao dao;
+    public CollectDao urldao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class BaseActivity extends Activity {
         // 初始化BmobSDK
         Bmob.initialize(this, APPID);
         dao = new Zhang1Dao(this);
-
+        urldao = new CollectDao(this);
     }
 
     @Override
