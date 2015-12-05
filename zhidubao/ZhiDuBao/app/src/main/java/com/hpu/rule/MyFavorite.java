@@ -18,6 +18,7 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
     private TextView actionbar_MyFavorite;
     private ListView list;
     private List<Collect> collects;
+    private MyFavoriteAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
         actionbar_MyFavorite = (TextView) findViewById(R.id.actionbar_Text);
         actionbar_MyFavorite.setText("我的收藏");
         list = (ListView) findViewById(R.id.list_collect);
-        initData();
+
     }
 
     private void initData() {
@@ -42,9 +43,10 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
     }
 
     private void initview(List<Collect> collects) {
-        if (collects != null) {
-            MyFavoriteAdapter adapter = new MyFavoriteAdapter(MyFavorite.this, collects);
-            list.setAdapter(adapter);
+        adapter = new MyFavoriteAdapter(MyFavorite.this, collects);
+        list.setAdapter(adapter);
+        //判断是否有数据
+        if (collects.size() > 0) {
             list.setOnItemClickListener(this);
         } else {
             toast("暂时没有收藏的数据哦!");
@@ -57,7 +59,16 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
         Intent i = new Intent(MyFavorite.this, DetailActivity.class);
         i.putExtra("url", collects.get(position).getUrl());
         i.putExtra("pian_name", collects.get(position).getPian_name());
+        i.putExtra("position", collects.get(position).getPosition());
         startActivity(i);
     }
 
+    /**
+     * 再次看到当前界面时，刷新数据
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
 }

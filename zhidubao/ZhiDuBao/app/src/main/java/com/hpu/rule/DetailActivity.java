@@ -1,8 +1,10 @@
 package com.hpu.rule;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,15 +16,20 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.hpu.rule.bease.BaseActivity;
+import com.hpu.rule.view.MyWebView;
 
 public class DetailActivity extends BaseActivity {
-    private WebView mWebView;
+    private MyWebView mWebView;
     private ProgressBar pbProgress;
     //要显示的内容地址
     private String url;
     //是否收藏
     private boolean hasCollect;
     private String pian_name;
+    //保存的位置
+    private int curPos = 0;
+    private LocationManager myLocationManager = null;
+    private static final String APP_CACAHE_DIRNAME = "/webcache";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +44,42 @@ public class DetailActivity extends BaseActivity {
         url = getIntent().getStringExtra("url");
         pian_name = getIntent().getStringExtra("pian_name");
         String s = getIntent().getStringExtra("search");
-        mWebView = (WebView) findViewById(R.id.wv_web);
+        mWebView = (MyWebView) findViewById(R.id.wv_web);
+        initWebView();
+        myLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
+        mWebView.loadUrl(url);// 加载网页
+    }
+
+    //初始化webview的设置
+    private void initWebView() {
         WebSettings settings = mWebView.getSettings();
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptEnabled(true);// 表示支持js
         settings.setBuiltInZoomControls(true);// 显示放大缩小按钮
         settings.setUseWideViewPort(true);// 支持双击缩放
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式
+        // 开启 DOM storage API 功能
+        settings.setDomStorageEnabled(true);
+        //开启 database storage API 功能
+        settings.setDatabaseEnabled(true);
+        String cacheDirPath = getFilesDir().getAbsolutePath() + APP_CACAHE_DIRNAME;
+        //设置数据库缓存路径
+        settings.setDatabasePath(cacheDirPath);
+        //设置  Application Caches 缓存目录
+        settings.setAppCachePath(cacheDirPath);
+        //开启 Application Caches 功能
+        settings.setAppCacheEnabled(true);
+        //设置滚动位置监听
+        mWebView.setOnOveredScroll(new MyWebView.onOveredScroll() {
+            @Override
+            public void onOvered(int scrollY) {
+                curPos = scrollY;
+            }
+        });
         mWebView.setWebViewClient(new WebViewClient() {
+
             /**
              * 网页开始加载
              */
@@ -61,6 +96,9 @@ public class DetailActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 pbProgress.setVisibility(View.GONE);
+                curPos = getIntent().getIntExtra("position", 0);
+                //自动滚动到上次的位置
+                mWebView.scrollTo(0, curPos);
             }
 
             /**
@@ -90,9 +128,6 @@ public class DetailActivity extends BaseActivity {
                 super.onReceivedTitle(view, title);
             }
         });
-        mWebView.loadUrl(url);// 加载网页
-        mWebView.findAllAsync(s);
-
     }
 
     private void initData() {
@@ -115,8 +150,8 @@ public class DetailActivity extends BaseActivity {
                     toast("取消收藏!");
                 } else {
                     item.setIcon(R.mipmap.ic_action_favor_on_pressed);
-                    urldao.insert(url, pian_name);
-                    toast("已经收藏了!");
+                    urldao.insert(url, pian_name, curPos);
+                    toast("已经收藏了!" + curPos);
                 }
                 break;
         }
@@ -190,6 +225,5 @@ public class DetailActivity extends BaseActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
-
 
 }
