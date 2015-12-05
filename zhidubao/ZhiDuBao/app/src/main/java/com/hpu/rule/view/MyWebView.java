@@ -2,6 +2,7 @@ package com.hpu.rule.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebView;
 
 /**
@@ -19,6 +20,12 @@ public class MyWebView extends WebView {
 
     public MyWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        Log.i("DetailActivity", "当前:" + t + "以前" + oldt);
     }
 
     @Override

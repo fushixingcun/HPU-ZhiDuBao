@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +51,7 @@ public class DetailActivity extends BaseActivity {
         myLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
         mWebView.loadUrl(url);// 加载网页
+
     }
 
     //初始化webview的设置
@@ -96,9 +99,8 @@ public class DetailActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 pbProgress.setVisibility(View.GONE);
-                curPos = getIntent().getIntExtra("position", 0);
-                //自动滚动到上次的位置
-                mWebView.scrollTo(0, curPos);
+                //延时1秒跳转到上次的位置
+                handler.sendEmptyMessageDelayed(0,1000);
             }
 
             /**
@@ -151,7 +153,7 @@ public class DetailActivity extends BaseActivity {
                 } else {
                     item.setIcon(R.mipmap.ic_action_favor_on_pressed);
                     urldao.insert(url, pian_name, curPos);
-                    toast("已经收藏了!" + curPos);
+                    toast("已经收藏了!");
                 }
                 break;
         }
@@ -226,4 +228,13 @@ public class DetailActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            curPos = getIntent().getIntExtra("position", 0);
+            //自动滚动到上次的位置
+            mWebView.scrollTo(0, curPos);
+        }
+    };
 }
