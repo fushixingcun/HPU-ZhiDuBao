@@ -35,6 +35,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setTitle("返回");
+
         initView();
     }
 

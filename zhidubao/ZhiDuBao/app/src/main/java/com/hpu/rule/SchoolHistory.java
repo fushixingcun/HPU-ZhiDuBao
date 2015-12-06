@@ -28,13 +28,14 @@ public class SchoolHistory extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-            mHandler.sendEmptyMessageDelayed(0,3000);
+            //mHandler.sendEmptyMessageDelayed(0,3000);
         }
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_history);
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -46,14 +47,16 @@ public class SchoolHistory extends BaseActivity {
         actionbar_SchoolHistory_Text.setText("悠悠校园");
 
         mViewPager=(ViewPager)findViewById(R.id.school_history_viewPager);
+        //初始化小白点
         initDots();
+        //把需要显示图片放到list集合中
         List<Integer> viewPagerList=new ArrayList<Integer>();
         viewPagerList.add(R.mipmap.ligong_nihao);
         viewPagerList.add(R.mipmap.hpu1);
-        viewPagerList.add(R.mipmap.water);
+        viewPagerList.add(R.mipmap.hpu4);
         viewPagerList.add(R.mipmap.hpu2);
         viewPagerList.add(R.mipmap.hpu3);
-
+        //为viewpager设置adapter
         MyPagerAdapter myPagerAdapter=new MyPagerAdapter(SchoolHistory.this,viewPagerList);
         mViewPager.setAdapter(myPagerAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -63,9 +66,11 @@ public class SchoolHistory extends BaseActivity {
             }
             @Override
             public void onPageSelected(int mPosition) {
+                //加载小白点的图片资源
                 for (int i=0;i<5;i++){
                     dots1[i].setImageResource(R.mipmap.white);
                 }
+                //设置当前的image
                 int positon = mPosition % views1.length;
                 dots1[positon].setImageResource(R.mipmap.blue);
             }

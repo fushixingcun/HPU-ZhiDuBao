@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--用于反馈的布局-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -12,8 +13,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="6dp"
         android:layout_marginLeft="10dp"
-        android:text="@string/sendfeedBack_textView"
-        android:autoLink="email|map|web|all"
         android:lineSpacingExtra="10dp"
         android:textSize="20sp"/>
     <View
@@ -22,9 +21,8 @@
        />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:hint="请留下您的联系方式"
-        android:layout_weight="0.2"
         android:id="@+id/information_edt"
         android:inputType="number"/>
     <View
@@ -35,9 +33,9 @@
         android:id="@+id/content_edt"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
-        android:hint="想说什么就说吧"/>
+        android:hint="欢迎大家吐槽"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

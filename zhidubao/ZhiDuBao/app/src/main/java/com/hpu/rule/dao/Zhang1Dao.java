@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * 数据库帮助类
+ * 思路：在启动界面判断本地是否有数据库，通过hasinfo()方法
+ * 在insert这个方法中先判断本地数据库里面的数据和服务器里面的数据是否一致，不一致直接重新插入数据，一致的话，直接终止该方法
  */
 public class Zhang1Dao {
     private SQLHelperPian mOpenHelper; // 数据库的帮助类对象
@@ -23,6 +25,7 @@ public class Zhang1Dao {
 
     /**
      * 添加到表一条数据
+     *从count_pian_zhang_gai表中查询数据，添加到表里
      */
     public void insert(count_pian_zhang_gai countPian1Zhang) {
         SQLiteDatabase query = mOpenHelper.getReadableDatabase();
@@ -33,8 +36,10 @@ public class Zhang1Dao {
             String groupBy = null; // 分组语句 group by name
             String having = null; // 过滤语句
             String orderBy = null; // 排序
+            //从本地数据库查询数据
             Cursor cursor = query.query("pian1", columns, selection,
                     selectionArgs, groupBy, having, orderBy);
+            //避免空指针，要先判断cusor是否为空指针并且数量是否大于0
             if (cursor != null && cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     if (cursor.getString(1).equals(countPian1Zhang.getZhang_name())) {
@@ -44,12 +49,14 @@ public class Zhang1Dao {
                     }
                 }
             }
+            //得到服务器的数据并且插入到pian1表中
             SQLiteDatabase db = mOpenHelper.getWritableDatabase();
             if (db.isOpen()) { // 如果数据库打开, 执行添加的操作
                 ContentValues values = new ContentValues();
                 values.put("zhang_name", countPian1Zhang.getZhang_name());
                 values.put("content", countPian1Zhang.getContent());
                 values.put("pian_name", countPian1Zhang.getPian_name());
+                //id用于表示第几行
                 long id = db.insert("pian1", null, values);
                 db.close(); // 数据库关闭
             }

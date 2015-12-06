@@ -83,8 +83,7 @@
 
         <activity android:name=".DetailActivity" />
         <activity
-            android:name=".SearchActivity"
-            android:label="@string/title_activity_search" >
+            android:name=".SearchActivity">
         </activity>
     </application>
 

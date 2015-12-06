@@ -1,7 +1,11 @@
 package com.hpu.rule;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,12 +28,14 @@ public class ActSendFeedback extends BaseActivity implements View.OnClickListene
     private EditText content_edt;
     static String msg1;
     static String msg2;
+    private TextView feedback_textView;
     //用于显示
     private TextView actionbar_SchoolHistory_Text;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sendfeedback);
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -38,9 +44,19 @@ public class ActSendFeedback extends BaseActivity implements View.OnClickListene
         View actionBar_layout = LayoutInflater.from(this).inflate(R.layout.actionbar_layout, null);
         getActionBar().setCustomView(actionBar_layout);
         actionbar_SchoolHistory_Text = (TextView) findViewById(R.id.actionbar_Text);
-        actionbar_SchoolHistory_Text.setText("悠悠校园");
+        actionbar_SchoolHistory_Text.setText("联系我们");
+
         information_edt = (EditText) findViewById(R.id.information_edt);
         content_edt = (EditText) findViewById(R.id.content_edt);
+
+        feedback_textView=(TextView)findViewById(R.id.feedback_textView);
+        //创建一个 SpannableString对象
+        SpannableString sp=new SpannableString(getString(R.string.sendfeedBack_textView));
+        //最后一个参数的含义是前后都不包括
+        sp.setSpan(new URLSpan("http://weibo.com/p/100808d2ae2b74bb354e38ca9c6e483329b3a7/home?from=page_100808&mod=TAB#place"), 42, 46, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new URLSpan("http://qm.qq.com/cgi-bin/qm/qr?k=34ujcpnG4yF9wcxXbbjRO2mwuww6FKZR"), 25, 34, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        feedback_textView.setText(sp);
+        feedback_textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -57,8 +73,6 @@ public class ActSendFeedback extends BaseActivity implements View.OnClickListene
             } else {
                 msg1 = information_String;
                 msg2 = content_String;
-                //发送信息给开发者
-//               sendMessage(information_String,content_String);
                 //发送信息给服务器
                 saveFeedbackMsg(msg1, msg2);
                 Toast.makeText(this, "您的信息已经发送，谢谢您的参与", Toast.LENGTH_SHORT).show();

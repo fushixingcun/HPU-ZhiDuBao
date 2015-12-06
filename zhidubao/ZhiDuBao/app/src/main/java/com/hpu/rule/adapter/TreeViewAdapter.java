@@ -44,7 +44,7 @@ public class TreeViewAdapter extends BaseExpandableListAdapter {
     public String getChild(int groupPosition, int childPosition) {
         return treeNodes.get(groupPosition).childs.get(childPosition);
     }
-    //获取url
+    //获取url,即是内容
     public String getChildUrl(int groupPosition, int childPosition) {
         return treeNodes.get(groupPosition).childsurl.get(childPosition);
     }
@@ -95,7 +95,7 @@ public class TreeViewAdapter extends BaseExpandableListAdapter {
         tv.setText((String) (treeNodes.get(groupPosition).parent));
         return convertView;
     }
-
+    //是否指定分组视图及其子视图的ID对应的后台数据改变也会保持该ID.
     @Override
     public boolean hasStableIds() {
         return true;

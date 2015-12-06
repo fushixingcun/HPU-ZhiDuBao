@@ -21,12 +21,15 @@ import com.hpu.rule.bease.BaseActivity;
 import com.hpu.rule.view.MyWebView;
 
 public class DetailActivity extends BaseActivity {
+    //自定义的webview
     private MyWebView mWebView;
+
     private ProgressBar pbProgress;
     //要显示的内容地址
     private String url;
     //是否收藏
     private boolean hasCollect;
+
     private String pian_name;
     //保存的位置
     private int curPos = 0;
@@ -37,6 +40,13 @@ public class DetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setTitle("返回");
+
         initview();
         //初始化数据库数据
         initData();
@@ -47,8 +57,12 @@ public class DetailActivity extends BaseActivity {
         pian_name = getIntent().getStringExtra("pian_name");
         String s = getIntent().getStringExtra("search");
         mWebView = (MyWebView) findViewById(R.id.wv_web);
+
         initWebView();
+
+        //得到当前的位置
         myLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         pbProgress = (ProgressBar) findViewById(R.id.pb_progress);
         mWebView.loadUrl(url);// 加载网页
 
@@ -61,12 +75,14 @@ public class DetailActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);// 表示支持js
         settings.setBuiltInZoomControls(true);// 显示放大缩小按钮
         settings.setUseWideViewPort(true);// 支持双击缩放
+        //提高渲染的优先级
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式
         // 开启 DOM storage API 功能
         settings.setDomStorageEnabled(true);
         //开启 database storage API 功能
         settings.setDatabaseEnabled(true);
+        //设置缓存
         String cacheDirPath = getFilesDir().getAbsolutePath() + APP_CACAHE_DIRNAME;
         //设置数据库缓存路径
         settings.setDatabasePath(cacheDirPath);
@@ -99,8 +115,8 @@ public class DetailActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 pbProgress.setVisibility(View.GONE);
-                //延时1秒跳转到上次的位置
-                handler.sendEmptyMessageDelayed(0,1000);
+                //延时0.1秒跳转到上次的位置
+                handler.sendEmptyMessageDelayed(0,100);
             }
 
             /**
@@ -227,7 +243,7 @@ public class DetailActivity extends BaseActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
-
+//在收藏中自动滚动到上次滑动的位置
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

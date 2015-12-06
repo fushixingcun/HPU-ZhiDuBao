@@ -7,11 +7,14 @@
     tools:context="com.hpu.rule.SchoolRule">
 
     <TextView
+        android:id="@+id/school_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="河南理工大学学生手册目录"
-        android:textSize="30dp" />
+        android:layout_marginTop="10dp"
+        android:text="河南理工大学学生手册目录（2015）"
+        android:textSize="18sp"
+        />
 
     <ExpandableListView
         android:id="@+id/expand_list"

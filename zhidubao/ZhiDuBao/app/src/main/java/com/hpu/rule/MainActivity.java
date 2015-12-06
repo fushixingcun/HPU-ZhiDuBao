@@ -71,12 +71,14 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         getActionBar().setHomeButtonEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().setDisplayShowHomeEnabled(false);
         setOverflowShowingAlways();
         //查检更新
         update("unclick");
+
         //得到viewpager的实例
         mPager = (ViewPager) findViewById(R.id.viewPager);
         //初始化小白点
@@ -85,7 +87,7 @@ public class MainActivity extends BaseActivity {
         List<Integer> list = new ArrayList<>();
         list.add(R.mipmap.ligong_nihao);
         list.add(R.mipmap.hpu1);
-        list.add(R.mipmap.water);
+        list.add(R.mipmap.hpu4);
         list.add(R.mipmap.hpu3);
         list.add(R.mipmap.hpu2);
         //得到pageradapter的实例
@@ -156,8 +158,10 @@ public class MainActivity extends BaseActivity {
         query.findObjects(this, new FindListener<Update>() {
             @Override
             public void onSuccess(List<Update> list) {
+                //比new Message更加节省内存
                 Message msg = Message.obtain();
                 for (Update update : list) {
+                    //getVersionName()表示得到本地的应用程序的版本
                     String versionName = update.getVersionName();
                     if (!versionName.equals(getVersionName())) {
                         apkUrl = update.getPath();
@@ -166,6 +170,7 @@ public class MainActivity extends BaseActivity {
                         msg.obj = false;
                     }
                 }
+                //如果是最新版本，并且手动检查更新
                 if (click.equals("click")) {
                     if (!(boolean) msg.obj) {
                         toast("已经是最新版本了");

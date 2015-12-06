@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#D7D7D2"
-        app:layout_heightPercent="1.5%" />
+        app:layout_heightPercent="1.2%" />
 
     <ListView
         android:id="@+id/main_listView"
@@ -79,12 +79,12 @@
         android:dividerHeight="2dp"
         android:footerDividersEnabled="false"
         android:scrollbars="none"
-        app:layout_heightPercent="62%" />
+        app:layout_heightPercent="62.6%" />
 
     <View
         android:id="@+id/view_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#D7D7D2"
-        app:layout_heightPercent="1.5%" />
+        app:layout_heightPercent="1.2%" />
 </com.zhy.android.percent.support.PercentLinearLayout>

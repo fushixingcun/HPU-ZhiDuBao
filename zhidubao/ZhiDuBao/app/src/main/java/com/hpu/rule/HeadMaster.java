@@ -26,6 +26,7 @@ public class HeadMaster extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.headmaster);
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -41,6 +42,7 @@ public class HeadMaster extends BaseActivity {
         yangXiaoLin=(TextView)findViewById(R.id.headmaster_text_content7);
         //创建一个 SpannableString对象
         SpannableString sp1=new SpannableString("校党委书记：邹友峰");
+        //最后一个参数的含义是前后都不包括
         sp1.setSpan(new URLSpan("https://www.baidu.com/s?wd=%E9%82%B9%E5%8F%8B%E5%B3%B0&rsv_spt=1&rsv_iqid=0xe67a352100091eda&issp=1&f=3&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=3&rsv_sug1=3&rsv_sug2=1&rsp=0&rsv_sug9=es_0_1&inputT=2597&rsv_sug4=3105&rsv_sug=9"), 6, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         zhouYouFeng.setText(sp1);
         zhouYouFeng.setMovementMethod(LinkMovementMethod.getInstance());

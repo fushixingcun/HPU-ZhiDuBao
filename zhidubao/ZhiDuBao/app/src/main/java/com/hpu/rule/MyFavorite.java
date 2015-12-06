@@ -24,6 +24,7 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_favorite);
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -33,11 +34,12 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
         getActionBar().setCustomView(actionBar_layout);
         actionbar_MyFavorite = (TextView) findViewById(R.id.actionbar_Text);
         actionbar_MyFavorite.setText("我的收藏");
-        list = (ListView) findViewById(R.id.list_collect);
 
+        list = (ListView) findViewById(R.id.list_collect);
     }
 
     private void initData() {
+        //查询所有的收藏
         collects = urldao.qurreyAll();
         initview(collects);
     }
@@ -49,7 +51,7 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
         if (collects.size() > 0) {
             list.setOnItemClickListener(this);
         } else {
-            toast("暂时没有收藏的数据哦!");
+            toast("这个家伙很懒，什么都没有留下!");
         }
     }
 

@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/headmaster_text_title"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="20dp"/>
             <TextView

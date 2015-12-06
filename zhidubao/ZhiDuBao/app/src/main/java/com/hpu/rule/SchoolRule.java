@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +29,11 @@ import cn.bmob.v3.listener.FindListener;
 public class SchoolRule extends BaseActivity implements ExpandableListView.OnChildClickListener {
     private ExpandableListView expandableListView;
     private TreeViewAdapter adapter;
-
+    //用于加粗改字体
+    private TextView school_TextView;
+    //用于放置所有篇的名字，本地的
     public List<String> groups = new ArrayList<>();
+    //所有篇的名字，查询得到的
     private final static int NETGROUP = 0;
     private List<count_pian_zhang_gai> count_pian1_zhangs;
     //实体信息
@@ -40,6 +44,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school);
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -48,10 +53,16 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         View actionBar_layout = LayoutInflater.from(this).inflate(R.layout.actionbar_layout, null);
         getActionBar().setCustomView(actionBar_layout);
         actionbar_SchoolRule_Text = (TextView) findViewById(R.id.actionbar_Text);
-        actionbar_SchoolRule_Text.setText("校规校纪");
-        fillDate();
-        acquireData();
+        actionbar_SchoolRule_Text.setText("学生手册");
 
+        //加粗字体
+        school_TextView=(TextView)findViewById(R.id.school_TextView);
+        TextPaint tp=school_TextView.getPaint();
+        tp.setFakeBoldText(true);
+        //查看本地是否有数据
+        fillDate();
+        //请求数据
+        acquireData();
     }
 
     //读取数据库的信息
@@ -77,10 +88,12 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         } else {
             query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
+        //获取所有篇的表
         query.findObjects(this, new FindListener<count_pian_gai>() {
             @Override
             public void onSuccess(List<count_pian_gai> list) {
                 pd.dismiss();
+                //netgroups用于放篇的名字
                 List<String> netgroups = new ArrayList<>();
                 for (count_pian_gai pian : list) {
                     netgroups.add(pian.getContent());
@@ -124,6 +137,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         for (int i = 0; i < groups.size(); i++) {
             TreeViewAdapter.TreeNode node = new TreeViewAdapter.TreeNode();
             node.parent = groups.get(i);
+            //如果从数据库查询的篇的名字和group的相等的话，就获取章的名字和内容
             for (count_pian_zhang_gai zhang : count_pian1_zhangs) {
                 if (zhang.getPian_name().equals(groups.get(i))) {
                     node.childs.add(zhang.getZhang_name());
@@ -151,6 +165,7 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         switch (item.getItemId()) {
             case R.id.refresh:
                 dao.delAll();
+                //重新请求数据
                 acquireDataZhang();
                 break;
             case R.id.search:

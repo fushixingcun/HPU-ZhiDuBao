@@ -72,29 +72,34 @@ import java.util.List;
 /**
  * viewPager的adapter
  * Created by hjs on 2015/11/9.
+ * 参考：http://blog.csdn.net/harvic880925/article/details/38487149
  */
 public class MyPagerAdapter extends PagerAdapter {
     private List<View> mList;
 
     public MyPagerAdapter(Context mContext, List<Integer> list) {
         mList = new ArrayList<>();
+        //为加载进来的imageview设置布局方式
         LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
+        //设置背景图片
         for (int i = 0; i < list.size(); i++) {
             ImageView mimageView = new ImageView(mContext);
             mimageView.setLayoutParams(mParams);
             mimageView.setBackgroundResource(list.get(i));
+            //把图片放到结合中去
             mList.add(mimageView);
         }
     }
 
-    //判断当前的view是否为我们需要的view
+    //判断当前的view是否为我们需要的view，该函数用来判断instantiateItem(ViewGroup, int)函数所返回来的Key与一个页面视图是否是代表的同一个视图(即它俩是否是对应的，对应的表示同一个View)
+    //返回值：如果对应的是同一个View，返回True，否则返回False。
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
-
+    //把view的数量设置为最大
     @Override
     public int getCount() {
         return Integer.MAX_VALUE;
@@ -107,11 +112,12 @@ public class MyPagerAdapter extends PagerAdapter {
         container.removeView(mList.get(position));
     }
 
-    //添加下一页
+    //添加下一页，这个函数的实现的功能是创建指定位置的页面视图。适配器有责任增加即将创建的View视图到这里给定的container中，这是为了确保在finishUpdate(viewGroup)返回时this is be done!
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         position = position % mList.size();
         container.addView(mList.get(position));
+        //返回当前position的View做为此视图的Key
         return mList.get(position);
     }
 }

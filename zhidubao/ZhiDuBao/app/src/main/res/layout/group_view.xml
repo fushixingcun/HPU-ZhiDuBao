@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:padding="25dp"
+    android:layout_height="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_heightPercent="10%"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:paddingLeft="40dp"
     tools:context="com.hpu.rule.Gui">
 
     <TextView
@@ -12,5 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FF6D6B6B"
-        android:textSize="20dp" />
-</LinearLayout>
+        android:layout_marginTop="10dp"
+        android:textSize="20sp" />
+</com.zhy.android.percent.support.PercentLinearLayout>

@@ -31,7 +31,6 @@ public class CollectDao {
             db.insert("collect1", null, values);
             db.close();
         }
-
     }
 
     /**
@@ -50,8 +49,6 @@ public class CollectDao {
 
     /**
      * 查询url是否存在
-     *
-     * @return
      */
     public boolean querryUrl(String url) {
         boolean result = false;
@@ -77,8 +74,6 @@ public class CollectDao {
 
     /**
      * 查询所有收藏
-     *
-     * @return
      */
     public List<Collect> qurreyAll() {
         SQLiteDatabase db = mOpenHelper.getReadableDatabase(); // 获得一个只读的数据库对象
