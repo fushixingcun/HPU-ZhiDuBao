@@ -51,7 +51,7 @@ public class MyFavorite extends BaseActivity implements AdapterView.OnItemClickL
         if (collects.size() > 0) {
             list.setOnItemClickListener(this);
         } else {
-            toast("这个家伙很懒，什么都没有留下!");
+            toast("您暂时没有收藏~");
         }
     }
 
