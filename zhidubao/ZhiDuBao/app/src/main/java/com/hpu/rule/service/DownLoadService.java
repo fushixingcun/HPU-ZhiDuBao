@@ -61,8 +61,8 @@ public class DownLoadService extends Service {
         @Override
         protected void onPreExecute() {
             builder = new NotificationCompat.Builder(getApplicationContext());
-            builder.setSmallIcon(R.mipmap.xiaoyuan);
-            builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.xiaoyuan));
+            //builder.setSmallIcon(R.mipmap.xiaoyuan);
+            //builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.xiaoyuan));
             builder.setContentTitle("制度宝");
             builder.setContentText("河南理工大学制度宝");
             builder.setProgress(100, 0, false);

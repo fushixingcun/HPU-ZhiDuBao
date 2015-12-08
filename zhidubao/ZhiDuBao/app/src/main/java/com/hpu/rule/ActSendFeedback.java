@@ -53,8 +53,7 @@ public class ActSendFeedback extends BaseActivity implements View.OnClickListene
         //创建一个 SpannableString对象
         SpannableString sp=new SpannableString(getString(R.string.sendfeedBack_textView));
         //最后一个参数的含义是前后都不包括
-        sp.setSpan(new URLSpan("http://weibo.com/p/100808d2ae2b74bb354e38ca9c6e483329b3a7/home?from=page_100808&mod=TAB#place"), 42, 46, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(new URLSpan("http://qm.qq.com/cgi-bin/qm/qr?k=34ujcpnG4yF9wcxXbbjRO2mwuww6FKZR"), 25, 34, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new URLSpan("http://weibo.com/p/100808d2ae2b74bb354e38ca9c6e483329b3a7/home?from=page_100808&mod=TAB#place"), 20, 25, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         feedback_textView.setText(sp);
         feedback_textView.setMovementMethod(LinkMovementMethod.getInstance());
     }

@@ -6,6 +6,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/weibo"
+        android:layout_gravity="center"/>
     <TextView
         android:id="@+id/feedback_textView"
         android:layout_width="match_parent"
@@ -18,7 +24,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-       />
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,10 +46,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_feedback"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="2dp"
         android:onClick="onClick"
         android:textColor="#FFFFFF"
         android:text="反  馈"
-        android:autoLink="all"
         android:background="#18B4ED"/>
 </LinearLayout>
