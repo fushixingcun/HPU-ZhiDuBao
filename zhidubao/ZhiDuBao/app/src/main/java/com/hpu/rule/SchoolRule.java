@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hpu.rule.adapter.TreeViewAdapter;
+import com.hpu.rule.bean.Update;
 import com.hpu.rule.bean.count_pian_gai;
 import com.hpu.rule.bean.count_pian_zhang_gai;
 import com.hpu.rule.bease.BaseActivity;
@@ -44,7 +45,6 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school);
-
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -56,13 +56,36 @@ public class SchoolRule extends BaseActivity implements ExpandableListView.OnChi
         actionbar_SchoolRule_Text.setText("学生手册");
 
         //加粗字体
-        school_TextView=(TextView)findViewById(R.id.school_TextView);
-        TextPaint tp=school_TextView.getPaint();
+        school_TextView = (TextView) findViewById(R.id.school_TextView);
+        TextPaint tp = school_TextView.getPaint();
         tp.setFakeBoldText(true);
         //查看本地是否有数据
         fillDate();
         //请求数据
         acquireData();
+        //产看时候有文档更新
+        update();
+
+    }
+
+    private void update() {
+        BmobQuery<Update> query = new BmobQuery<>();
+        query.addWhereEqualTo("objectId", "zsV7AAAg");
+        query.findObjects(this, new FindListener<Update>() {
+            @Override
+            public void onSuccess(List<Update> list) {
+                for (Update update : list) {
+                    if (update.isWord_update()) {
+                        toast("校规已经更新了，请点击右上角更新哦！");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+            }
+        });
     }
 
     //读取数据库的信息

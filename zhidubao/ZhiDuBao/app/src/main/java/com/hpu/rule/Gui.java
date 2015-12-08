@@ -2,9 +2,11 @@ package com.hpu.rule;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -12,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hpu.rule.bean.MyBmobInstallation;
 import com.hpu.rule.bean.count_pian_zhang_gai;
 import com.hpu.rule.dao.Zhang1Dao;
 
@@ -20,6 +23,7 @@ import java.util.List;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 /*
 用于实现引导界面
@@ -40,6 +44,8 @@ public class Gui extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.gui);
         Bmob.initialize(this, APPID);
+        //获取设备信息
+        acquireDevice();
         guiText = (TextView) findViewById(R.id.gui_text);
         //加载animation
         mAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_text);
@@ -50,6 +56,24 @@ public class Gui extends Activity {
         }
         //发送一个value为0的空消息，并且延时1秒
         handler.sendEmptyMessageDelayed(0, 1000);
+    }
+
+    //获取手机信息
+    private void acquireDevice() {
+        MyBmobInstallation.getCurrentInstallation(this);
+        MyBmobInstallation myBmobInstallation = new MyBmobInstallation(this);
+        myBmobInstallation.setDevice(Build.MODEL);
+        myBmobInstallation.save(this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                Log.i("Gui","获取成功");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.i("Gui","获取手机信息失败!");
+            }
+        });
     }
 
     private Handler handler = new android.os.Handler() {
