@@ -243,7 +243,7 @@ public class DetailActivity extends BaseActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
-//在收藏中自动滚动到上次滑动的位置
+    //在收藏中自动滚动到上次滑动的位置
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

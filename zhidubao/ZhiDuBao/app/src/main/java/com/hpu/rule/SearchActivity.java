@@ -108,6 +108,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("url", items.get(position).getContent());
         i.putExtra("search", s);
+        i.putExtra("pian_name", items.get(position).getZhang_name());
         startActivity(i);
     }
 }
