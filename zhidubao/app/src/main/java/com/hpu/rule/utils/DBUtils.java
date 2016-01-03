@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class DBUtils {
     public  List<count_pian_zhang_gai> getOffInfo() {
-        String path = "data/data/com.hpu.rule/files/zhidubao_off.db";
+        String path = "data/data/com.hpucom.rule/files/zhidubao_off.db";
         SQLiteDatabase db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         List<count_pian_zhang_gai> personList = new ArrayList<>();
         if (db.isOpen()) {

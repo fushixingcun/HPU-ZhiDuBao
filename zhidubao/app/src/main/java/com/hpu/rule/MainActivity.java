@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity {
                         MainActivity.this.startActivity(itemIntent);
                         break;
                     case 1:
-                        itemIntent.setClass(getApplicationContext(), SchoolRule.class);
+                        itemIntent.setClass(getApplicationContext(), Authentication.class);
                         MainActivity.this.startActivity(itemIntent);
                         break;
                     case 2:

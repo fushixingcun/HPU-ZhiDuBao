@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory android:title="为了确认您的身份，请选择我校所有的餐厅">
+   <CheckBoxPreference android:key="cb1"
+       android:title="学苑餐厅">
+   </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb2"
+        android:title="学字餐厅">
+    </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb3"
+        android:title="学府餐厅">
+    </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb4"
+        android:title="学院餐厅">
+    </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb5"
+        android:title="学士餐厅">
+    </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb6"
+        android:title="学士餐厅">
+    </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb7"
+        android:title="学子餐厅">
+    </CheckBoxPreference>
+    <CheckBoxPreference android:key="cb8"
+        android:title="学诗餐厅">
+    </CheckBoxPreference>
+</PreferenceCategory>
+    <Preference
+        android:key="checkbox"
+        android:layout="@layout/checkbox_button"
+        ></Preference>
+</PreferenceScreen>
