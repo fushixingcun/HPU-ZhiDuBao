@@ -14,16 +14,23 @@ import android.widget.Toast;
 /*
 用于判断用户的身份
  */
+
+/*
+本来想的是用listview+checkbox实现，发现处理记住所点击的checkbox有困难，也很麻烦
+后来发现可以继承PreferenceActivity来实现，但是有个bug，昨天晚上搞到2点也没搞定
+ */
 public class Authentication extends PreferenceActivity {
     Context mContext = null;
     private Button checkbox_button;
-    private TextView actionbar_HeadMaster_Text;
+    private TextView actionbar_Authen_Text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkbox_button);
         addPreferencesFromResource(R.xml.checkbox);
         mContext=this;
+
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
@@ -31,8 +38,9 @@ public class Authentication extends PreferenceActivity {
         getActionBar().setTitle("返回");
         View actionBar_layout= LayoutInflater.from(this).inflate(R.layout.actionbar_layout,null);
         getActionBar().setCustomView(actionBar_layout);
-        actionbar_HeadMaster_Text=(TextView)findViewById(R.id.actionbar_Text);
-        actionbar_HeadMaster_Text.setText("用户验证");
+        actionbar_Authen_Text=(TextView)findViewById(R.id.actionbar_Text);
+        actionbar_Authen_Text.setText("用户验证");
+
         checkbox_button=(Button)findViewById(R.id.cb_button);
         final CheckBoxPreference cb1=(CheckBoxPreference)findPreference("cb1");
         final CheckBoxPreference cb2=(CheckBoxPreference)findPreference("cb2");
@@ -42,11 +50,14 @@ public class Authentication extends PreferenceActivity {
         final CheckBoxPreference cb6=(CheckBoxPreference)findPreference("cb6");
         final CheckBoxPreference cb7=(CheckBoxPreference)findPreference("cb7");
         final CheckBoxPreference cb8=(CheckBoxPreference)findPreference("cb8");
+
+       //以后会自动进入
         if(cb1.isChecked()&&cb3.isChecked()&&cb5.isChecked()&&cb7.isChecked()&&(!cb2.isChecked())&&(!cb4.isChecked())&&(!cb6.isChecked())&&(!cb8.isChecked())){
             Intent intent=new Intent(getApplicationContext(),SchoolRule.class);
                     startActivity(intent);
                     finish();
         }
+        //第一次需要手动点击
         checkbox_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
