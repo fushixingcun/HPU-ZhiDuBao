@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,48 +30,49 @@ public class Authentication extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkbox_button);
         addPreferencesFromResource(R.xml.checkbox);
-        mContext=this;
+        mContext = this;
 
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowCustomEnabled(true);
         getActionBar().setTitle("返回");
-        View actionBar_layout= LayoutInflater.from(this).inflate(R.layout.actionbar_layout,null);
+        View actionBar_layout = LayoutInflater.from(this).inflate(R.layout.actionbar_layout, null);
         getActionBar().setCustomView(actionBar_layout);
-        actionbar_Authen_Text=(TextView)findViewById(R.id.actionbar_Text);
+        actionbar_Authen_Text = (TextView) findViewById(R.id.actionbar_Text);
         actionbar_Authen_Text.setText("用户验证");
 
-        checkbox_button=(Button)findViewById(R.id.cb_button);
-        final CheckBoxPreference cb1=(CheckBoxPreference)findPreference("cb1");
-        final CheckBoxPreference cb2=(CheckBoxPreference)findPreference("cb2");
-        final CheckBoxPreference cb3=(CheckBoxPreference)findPreference("cb3");
-        final CheckBoxPreference cb4=(CheckBoxPreference)findPreference("cb4");
-        final CheckBoxPreference cb5=(CheckBoxPreference)findPreference("cb5");
-        final CheckBoxPreference cb6=(CheckBoxPreference)findPreference("cb6");
-        final CheckBoxPreference cb7=(CheckBoxPreference)findPreference("cb7");
-        final CheckBoxPreference cb8=(CheckBoxPreference)findPreference("cb8");
+        checkbox_button = (Button) findViewById(R.id.cb_button);
+        final CheckBoxPreference cb1 = (CheckBoxPreference) findPreference("cb1");
+        final CheckBoxPreference cb2 = (CheckBoxPreference) findPreference("cb2");
+        final CheckBoxPreference cb3 = (CheckBoxPreference) findPreference("cb3");
+        final CheckBoxPreference cb4 = (CheckBoxPreference) findPreference("cb4");
+        final CheckBoxPreference cb5 = (CheckBoxPreference) findPreference("cb5");
+        final CheckBoxPreference cb6 = (CheckBoxPreference) findPreference("cb6");
+        final CheckBoxPreference cb7 = (CheckBoxPreference) findPreference("cb7");
+        final CheckBoxPreference cb8 = (CheckBoxPreference) findPreference("cb8");
 
-       //以后会自动进入
-        if(cb1.isChecked()&&cb3.isChecked()&&cb5.isChecked()&&cb7.isChecked()&&(!cb2.isChecked())&&(!cb4.isChecked())&&(!cb6.isChecked())&&(!cb8.isChecked())){
-            Intent intent=new Intent(getApplicationContext(),SchoolRule.class);
-                    startActivity(intent);
-                    finish();
+        //以后会自动进入
+        if (cb1.isChecked() && cb3.isChecked() && cb5.isChecked() && cb7.isChecked() && (!cb2.isChecked()) && (!cb4.isChecked()) && (!cb6.isChecked()) && (!cb8.isChecked())) {
+            Intent intent = new Intent(getApplicationContext(), SchoolRule.class);
+            startActivity(intent);
+            finish();
         }
         //第一次需要手动点击
         checkbox_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(cb1.isChecked()&&cb3.isChecked()&&cb5.isChecked()&&cb7.isChecked()&&(!cb2.isChecked())&&(!cb4.isChecked())&&(!cb6.isChecked())&&(!cb8.isChecked())){
-                    Intent intent=new Intent(getApplicationContext(),SchoolRule.class);
+                if (cb1.isChecked() && cb3.isChecked() && cb5.isChecked() && cb7.isChecked() && (!cb2.isChecked()) && (!cb4.isChecked()) && (!cb6.isChecked()) && (!cb8.isChecked())) {
+                    Intent intent = new Intent(getApplicationContext(), SchoolRule.class);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "亲，您的回答有误，睁大眼睛瞧仔细哦！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
     //    private ActionBar actionBar;
 //    private TextView actionbar_HeadMaster_Text;
 //    private Button auth_button;
@@ -149,13 +151,13 @@ public class Authentication extends PreferenceActivity {
 ////            auth_ArrayList.add(restaurant[i]);
 ////        }
 ////    }
-//    //给返回键添加功能
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        if(item.getItemId()==android.R.id.home){
-//            finish();
-//            return  true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    //给返回键添加功能
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

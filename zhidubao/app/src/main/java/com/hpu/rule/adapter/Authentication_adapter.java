@@ -21,7 +21,7 @@ public class Authentication_adapter extends BaseAdapter {
     // 填充数据的list
     private ArrayList<String> list;
     // 用来控制CheckBox的选中状况
-    public  static HashMap<Integer,Boolean> isSelected;
+    public static HashMap<Integer, Boolean> isSelected;
     // 上下文
     private Context context;
     // 用来导入布局
@@ -36,10 +36,11 @@ public class Authentication_adapter extends BaseAdapter {
         // 初始化数据
         initDate();
     }
+
     // 初始化isSelected的数据
-    private void initDate(){
-        for(int i=0; i<list.size();i++) {
-            getIsSelected().put(i,false);
+    private void initDate() {
+        for (int i = 0; i < list.size(); i++) {
+            getIsSelected().put(i, false);
         }
     }
 
@@ -61,21 +62,20 @@ public class Authentication_adapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
-        if(view==null){
+        if (view == null) {
             // 获得ViewHolder对象
-            holder=new ViewHolder();
+            holder = new ViewHolder();
             // 导入布局并赋值给view
-            view=inflater.inflate(R.layout.authentication_item,null);
-
-            holder.authen_textView=(TextView)view.findViewById(R.id.authentication_textView);
-            holder.authen_box=(CheckBox)view.findViewById(R.id.authentication_checkBox);
+            view = inflater.inflate(R.layout.authentication_item, null);
+            holder.authen_textView = (TextView) view.findViewById(R.id.authentication_textView);
+            holder.authen_box = (CheckBox) view.findViewById(R.id.authentication_checkBox);
             //为view设置标签
             view.setTag(holder);
-        }else {
+        } else {
             // 取出holder
             holder = (ViewHolder) view.getTag();
         }
-       // 设置list中TextView的显示
+        // 设置list中TextView的显示
         holder.authen_textView.setText(list.get(i));
         // 根据isSelected来设置checkbox的选中状况
         holder.authen_box.setChecked(getIsSelected().get(i));
@@ -83,14 +83,16 @@ public class Authentication_adapter extends BaseAdapter {
         return view;
     }
 
- public class ViewHolder {
-    TextView authen_textView;
-    public CheckBox authen_box;
-}
-    public static HashMap<Integer,Boolean> getIsSelected(){
+    public class ViewHolder {
+        TextView authen_textView;
+        public CheckBox authen_box;
+    }
+
+    public static HashMap<Integer, Boolean> getIsSelected() {
         return isSelected;
     }
-    public static void setIsSelected(HashMap<Integer,Boolean> isSelected) {
+
+    public static void setIsSelected(HashMap<Integer, Boolean> isSelected) {
         Authentication_adapter.isSelected = isSelected;
     }
 }

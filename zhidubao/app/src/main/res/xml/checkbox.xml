@@ -17,7 +17,7 @@
         android:title="学士餐厅">
     </CheckBoxPreference>
     <CheckBoxPreference android:key="cb6"
-        android:title="学士餐厅">
+        android:title="学福餐厅">
     </CheckBoxPreference>
     <CheckBoxPreference android:key="cb7"
         android:title="学子餐厅">
@@ -28,6 +28,6 @@
 </PreferenceCategory>
     <Preference
         android:key="checkbox"
-        android:layout="@layout/checkbox_button"
+        android:layout="@layout/checkbox_list"
         ></Preference>
 </PreferenceScreen>
